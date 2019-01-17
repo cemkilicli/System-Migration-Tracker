@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block index_content %}
+
+	<h3>Phase1: Cut-Off</h3>
+	<h5>In this phase odamax.com and all related api endpoints will paused and no longer respond to the requests.</h5>
+	<br>
+	<br>
+	<div class="row">
+			<div class="col-md-9">
+				<div class="progress" style="height: 30px;">
+				  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+				</div>
+			</div>
+			<div class="col-md-3 text-center">
+				<h5>Status: Inprogress</h5>
+			</div>
+	</div>
+	<br>
+	<br>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+			<tr>
+				<th scope="col">Phase Steps</th>
+				<th scope="col">Starts</th>
+				<th scope="col">Ends</th>
+				<th scope="col">Status</th>
+				<th scope="col">Responsiable</th>
+				<th scope="col">Accountable</th>
+				<th scope="col">Cunsulted</th>
+				<th scope="col">Informed</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>Odamax Cut-off</td>
+				<td>11:00</td>
+				<td>11:02</td>
+				<td>Completed</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cem Kılıçlı</td>
+				<td>All Teams</td>
+			</tr>
+			<tr>
+				<td>Channel Manager Cut-off</td>
+				<td>11:00</td>
+				<td>11:02</td>
+				<td>Completed</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cem Kılıçlı</td>
+				<td>All Teams</td>
+			</tr>
+			<tr>
+				<td>Partners Cut-off</td>
+				<td>11:00</td>
+				<td>11:02</td>
+				<td>Completed</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cem Kılıçlı</td>
+				<td>All Teams</td>
+			</tr>
+			<tr>
+				<td>Operations Cut Off</td>
+				<td>11:00</td>
+				<td>11:02</td>
+				<td>Inprogress</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cağdaş Eraltan</td>
+				<td>Cem Kılıçlı</td>
+				<td>All Teams</td>
+			</tr>
+			</tbody>
+		</table>
+		<br>
+		<hr class="my-4">
+	</div>
+
+
+
+{% endblock %}
+
+{% block content_2 %}
+
+	{% for key, value in migration_phases.items %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="cbp_tmtimeline">
+	            <li>
+		            <div class="d-none d-sm-block">
+			            <time class="cbp_tmtime" datetime="2017-10-22T12:13"></time>
+                        <div class="cbp_tmicon"><i class="fas fa-cut"></i></div>
+	                </div>
+	                <div class="d-sm-none">
+			            <h4>{{ key }} <span class="badge {{ value.phase_status_color }}">{{ value.phase_status }}</span></h4>
+		                <p>{{ key.migration_phase_description }}</p>
+	                </div>
+                    <div class="cbp_tmlabel">
+	                    <div class="d-none d-sm-block">
+		                   <h4>{{ key }} <span class="badge {{ value.phase_status_color }}">{{ value.phase_status }}</span></h4>
+		                   <p>{{ key.migration_phase_description }}</p>
+	                    </div>
+
+	                    <br>
+                        <div class="row">
+							<div class="col-md-12">
+								<h5>Phase Progress: {{ value.phase_complition_percent }}% </h5>
+								<div class="progress" style="height: 30px;">
+								  <div class="{{ value.phase_status_progress_bar }}" role="progressbar" aria-valuenow="{{ value.phase_complition_percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ value.phase_complition_percent }}%">
+									  {% if value.phase_complition_percent != 0 %}
+									    {{ value.phase_complition_percent }}%
+									  {% endif %}
+								  </div>
+								</div>
+							</div>
+						</div>
+                        <br>
+                        <br>
+                        {% if key.migration_steps %}
+                            <div class="row clearfix">
+                            <div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+									<tr>
+										<th scope="col">Phase Steps</th>
+										<th scope="col">Starts</th>
+										<th scope="col">Ends</th>
+										<th scope="col">Status</th>
+										<th scope="col">Responsiable</th>
+										<th scope="col">Accountable</th>
+										<th scope="col">Cunsulted</th>
+										<th scope="col">Informed</th>
+									</tr>
+									</thead>
+									<tbody>
+									{% for migrations_step_name in key.migration_steps.all %}
+									<tr>
+
+										<td>{{ migrations_step_name.migration_step }}</td>
+										<td>{{ migrations_step_name.migration_step_starts }}</td>
+										<td>{{ migrations_step_name.migration_step_ends }}</td>
+										<td>{{ migrations_step_name.migration_step_status }}</td>
+										<td>{{ migrations_step_name.step_migration_responsiable }}</td>
+										<td>{{ migrations_step_name.step_migration_accountable }}</td>
+										<td>
+											{% for name in migrations_step_name.step_migration_consulted.all %}
+												<ul class="list-unstyled">
+													<li>{{ name }}</li>
+												</ul>
+											{% endfor %}
+										</td>
+										<td>
+											{% for name in migrations_step_name.step_migration_Informed.all %}
+												<ul class="list-unstyled">
+													<li>{{ name }}</li>
+												</ul>
+											{% endfor %}
+										</td>
+									</tr>
+									{% endfor %}
+									</tbody>
+								</table>
+							</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+	{% endfor %}
+
+{% endblock %}
